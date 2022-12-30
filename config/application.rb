@@ -31,5 +31,6 @@ module FilePrintAdmin
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.mongoid.logger = Logger.new($stdout, :dedug)
   end
 end

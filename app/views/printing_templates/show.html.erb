@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Application type:</strong>
+  <%= @printing_template.application_type %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @printing_template.name %>
+</p>
+
+<%= link_to 'Edit', edit_printing_template_path(@printing_template) %> |
+<%= link_to 'Back', printing_templates_path %>
