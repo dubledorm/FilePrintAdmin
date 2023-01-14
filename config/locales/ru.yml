@@ -1,0 +1,40 @@
+ru:
+  mongoid:
+    models:
+      template_info:
+        one: Параметры шаблона
+        other: Параметры шаблонов
+      template:
+        one: Шаблон
+        other: Шаблоны
+    attributes:
+      template_info:
+        name: Уникальное имя
+        rus_name: Имя для пользователя
+        description: Описание
+        output_format: Формат отчёта
+        state: Состояние
+        content: Шаблон
+        template: Шаблон
+    errors:
+      aliases:
+        _field_errors_alias: &fielderrors
+          blank: Должно быть заполнено
+          required: Должно быть заполнено
+          taken: Значение уже используется
+          greater_than: Должно быть больше 0
+          not_an_integer: Должно быть целым числом
+          less_than_or_equal_to: Превышает верхнее разрешённое значение
+          inclusion: Должно содержать значение из предопределённого списка
+
+      models:
+        template_info:
+          attributes:
+            name:
+              <<: *fielderrors
+            rus_name:
+              <<: *fielderrors
+            output_format:
+              <<: *fielderrors
+            state:
+              <<: *fielderrors

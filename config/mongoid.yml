@@ -155,10 +155,8 @@ development:
 test:
   clients:
     default:
-      database: file_print_admin_test
+      database: <%= ENV['DB_MONGO_DATABASE_NAME'] %>
       hosts:
-        - localhost:27017
+        - <%= ENV['DB_MONGO_HOST'] %>
       options:
-        read:
-          mode: :primary
         max_pool_size: 1
