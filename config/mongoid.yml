@@ -160,3 +160,12 @@ test:
         - <%= ENV['DB_MONGO_HOST'] %>
       options:
         max_pool_size: 1
+
+production:
+  clients:
+    default:
+      database: <%= ENV['DB_MONGO_DATABASE_NAME'] %>
+      hosts:
+        - <%= ENV['DB_MONGO_HOST'] %>
+      options:
+        max_pool_size: 1
