@@ -1,5 +1,7 @@
 ActiveAdmin.register TemplateInfo do
-  permit_params :name, :rus_name, :description, :output_format, :state, :template_id
+
+  permit_params :name, :rus_name, :description, :output_format, :state, :template_id,
+                options_attributes: %i[page_size orientation page_height page_width header_html footer_html]
   menu label: TemplateInfo.model_name.human
 
   show do
@@ -10,6 +12,28 @@ ActiveAdmin.register TemplateInfo do
         row :description
         row :output_format
         row :state
+      end
+    end
+
+    if resource.output_format == :pdf
+      panel TemplateOption.model_name.human do
+        attributes_table_for template_info.options do
+          row :page_size
+          row :orientation
+          row :page_width
+          row :page_height
+          row :header_html
+          row :footer_html
+        end
+      end
+
+      panel Margin.model_name.human do
+        attributes_table_for template_info.options.margins do
+          row :left
+          row :right
+          row :top
+          row :bottom
+        end
       end
     end
 
@@ -29,6 +53,24 @@ ActiveAdmin.register TemplateInfo do
       f.input :rus_name
       f.input :description
       f.input :output_format, collection: TemplateInfo::OUTPUT_FORMAT_VALUES.map { |item| [item, item] }
+      panel TemplateOption.model_name.human do
+      end
+      f.fields_for :options, @resource.options do |options_form|
+        options_form.input :page_size, collection: TemplateOption::PAGE_SIZE_VALUES.map { |item| [item, item] }.sort
+        options_form.input :orientation, collection: TemplateOption::ORIENTATION_VALUES.map { |item| [item, item] }
+        options_form.input :page_width
+        options_form.input :page_height
+        options_form.input :header_html, as: :text
+        options_form.input :footer_html, as: :text
+      end
+      panel Margin.model_name.human do
+      end
+      f.fields_for '[options][margins]', @resource.options&.margins do |margin_form|
+        margin_form.input :left
+        margin_form.input :right
+        margin_form.input :top
+        margin_form.input :bottom
+      end
     end
 
     inputs Template.model_name.human do
@@ -47,12 +89,17 @@ ActiveAdmin.register TemplateInfo do
 
   controller do
     def template_info_params
-      params.required(:template_info).except(:content).permit(:name, :rus_name, :description, :output_format)
+      params.required(:template_info).except(:content).permit(:name, :rus_name, :description,
+                                                              :output_format,
+                                                              options: [:page_size, :orientation, :page_height,
+                                                                        :page_width, :header_html, :footer_html,
+                                                                        margins: %i[left right top bottom]])
     end
 
     def create
-      @resource = TemplateInfoCreateService.call(template_info_params, file_content(params.required(:template_info)[:content]))
-      unless @resource.errors.empty?
+      @resource = TemplateInfoCreateService.call(template_info_params,
+                                                 file_content(params.required(:template_info)[:content]))
+      unless @resource&.errors&.empty?
         render :new
         return
       end
