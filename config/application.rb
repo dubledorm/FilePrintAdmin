@@ -37,5 +37,6 @@ module FilePrintAdmin
     config.mongoid.logger = Logger.new($stdout, :error)
     config.authentication_method = false
     config.current_user_method   = false
+    config.x.data_to_document_url = ENV['DATA_TO_DOCUMENT_URL']
   end
 end

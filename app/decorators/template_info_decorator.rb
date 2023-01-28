@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Декоратор для template_info
+# Декоратор для template_infos
 class TemplateInfoDecorator < Draper::Decorator
   delegate_all
 

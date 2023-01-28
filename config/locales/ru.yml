@@ -13,7 +13,16 @@ ru:
       margin:
         one: Отступы
         other: Отступы
+      tag:
+        one: Тэг
+        other: Тэги
     attributes:
+      tag:
+        id: Id
+        name: Ключевое значение
+        description: Описание
+        example: Пример
+        arguments: Параметры вызова
       template_info:
         name: Уникальное имя
         rus_name: Имя для пользователя

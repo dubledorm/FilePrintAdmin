@@ -1,0 +1,5 @@
+= render layout: 'shared/paginated_table', locals: { subject_class: Tag, subject_collection: template_info.tags } do |subject|
+  = link_to I18n.t('show'), '#', class: 'view_link member_link c-button c-button--info u-xsmall'
+  = link_to I18n.t('edit'), '#', class: 'edit_link member_link c-button c-button--info u-xsmall'# if subject.editable?
+  = link_to I18n.t('delete'), '#', class: 'delete_link member_link c-button c-button--error u-xsmall',
+                  data: {confirm: I18n.t('delete_tag_sure'), method: :delete}# if subject.editable?

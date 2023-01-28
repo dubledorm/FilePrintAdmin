@@ -51,7 +51,7 @@ RSpec.describe TemplateInfoUpdateService do
       it { expect(TemplateInfo.find(template_info.id).output_format).to eq(:xls) }
     end
 
-    context 'when only template_info updated' do
+    context 'when only template_infos updated' do
 
       before :each do
         TemplateInfoUpdateService.call(template_info.id, good_attributes_example, nil)

@@ -76,4 +76,6 @@ gem 'activeadmin_blaze_theme'
 gem 'ransack-mongoid', github: 'activerecord-hackery/ransack-mongoid'
 gem 'devise'
 gem 'draper'
+gem 'faraday'
+gem 'haml'
 

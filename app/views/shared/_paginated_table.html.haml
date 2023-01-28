@@ -1,0 +1,30 @@
+.paginated_collection
+  .paginated_collection_contents
+    .index_content
+      .index_as_table
+        %table(class='index_table index' paginator='true' cellspacing='0' cellpadding='0' id="#{subject_class.model_name.name.underscore}_table")
+          %thead
+            %tr
+              - subject_class.columns.each do |mongoid_field|
+                %th.col
+                  = subject_class.human_attribute_name(mongoid_field.name)
+              - if block_given?
+                %th.col
+                  = I18n.t('actions')
+          %tbody
+            - counter = 0
+            - subject_collection.each do |subject|
+              %tr(id="#{subject.class.name.underscore}_#{subject.attributes.include?('id') ? subject.send(:id) : counter}_row")
+                - subject.fields.keys.each do |field_name|
+                  %td.col
+                    = subject.send(field_name)
+                - if block_given?
+                  %td.col.col_actions
+                    .table_actions
+                      = yield(subject)
+                - counter += 1
+  .pagination_information
+    Результат
+    %b
+      1
+    = subject_class.model_name.human(count: 3)

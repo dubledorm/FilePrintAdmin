@@ -28,7 +28,7 @@ ActiveAdmin.register TemplateInfo do
       end
 
       panel Margin.model_name.human do
-        attributes_table_for template_info.options.margins do
+        attributes_table_for template_info.options&.margins do
           row :left
           row :right
           row :top
@@ -41,6 +41,12 @@ ActiveAdmin.register TemplateInfo do
       attributes_table_for template_info.template do
         row :id
         row :updated_at
+      end
+    end
+
+    panel Tag.model_name.human do
+      attributes_table_for template_info do
+        render 'admin/template_infos/print_tags', template_info: template_info
       end
     end
   end
@@ -85,6 +91,16 @@ ActiveAdmin.register TemplateInfo do
 
   action_item :download, only: :show do
     link_to "DownloadTemplate", download_template_admin_template_info_path(id: resource.id), method: :get
+  end
+
+  member_action :refresh_tags, method: :post do
+    RefreshTagsService.refresh(resource)
+    redirect_to admin_template_info_path(id: resource.id)
+  end
+
+
+  action_item :refresh_tags, only: :show do
+    link_to "RefreshTags", refresh_tags_admin_template_info_path(id: resource.id), method: :post
   end
 
   controller do
