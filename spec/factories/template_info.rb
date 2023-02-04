@@ -3,8 +3,8 @@ FactoryGirl.define do
     sequence(:name) { |n| "name#{n}" }
     sequence(:rus_name) { |n| "русское имя #{n}" }
     description 'Описание'
-    state :new
     output_format :xls
+    template
   end
 
   factory :template_info_with_options, class: TemplateInfo, parent: :template_info do

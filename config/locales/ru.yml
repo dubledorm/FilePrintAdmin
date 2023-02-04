@@ -44,6 +44,9 @@ ru:
         right: Справа в мм
         top: Сверху в мм
         bottom: Снизу в мм
+      template:
+        updated_at: Время обновления
+        original_file_name: Имя файла
     errors:
       aliases:
         _field_errors_alias: &fielderrors
@@ -57,6 +60,16 @@ ru:
           greater_than_or_equal_to: Значение должно быть больше или равно %{count}
           not_a_number: Значение должно быть числом
       models:
+        tag:
+          attributes:
+            name:
+              <<: *fielderrors
+            description:
+              <<: *fielderrors
+            example:
+              <<: *fielderrors
+            arguments:
+              <<: *fielderrors
         template_info:
           attributes:
             name:
@@ -69,6 +82,8 @@ ru:
               <<: *fielderrors
             options:
               invalid: Неверно заполнены поля
+            tags:
+              invalid: Неверно заполнены записи
         template_option:
           attributes:
             header_html:

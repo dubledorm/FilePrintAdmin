@@ -9,7 +9,6 @@ RSpec.describe TemplateInfo, type: :model do
 
     # Factories
     it { expect(template_info).to be_valid }
-    it { should validate_presence_of(:state) }
     it { should validate_presence_of(:name) }
     it { should validate_uniqueness_of(:name) }
     it { should validate_presence_of(:rus_name) }
@@ -17,18 +16,26 @@ RSpec.describe TemplateInfo, type: :model do
     it { should belong_to(:template) }
 
     it { expect(described_class.new({}).valid?).to_not be_truthy }
-    it { expect(described_class.new(name: 'name', rus_name: 'rus_name', state: :new, output_format: :xls).valid?).to be_truthy }
-    it { expect(described_class.new(name: 'name', rus_name: 'rus_name', state: :stable, output_format: :xls).valid?).to be_truthy }
+    it {
+      expect(described_class.new(name: 'name', rus_name: 'rus_name', output_format: :xls,
+                                 template: { content: BSON::Binary.new('some data') }).valid?).to be_truthy
+    }
+    it {
+      expect(described_class.new(name: 'name', rus_name: 'rus_name', output_format: :pdf,
+                                 template: { content: BSON::Binary.new('some data') }).valid?).to be_truthy
+    }
 
     it { expect(template_info_with_options).to be_valid }
     it {
-      expect(described_class.new(name: 'name', rus_name: 'rus_name', state: :new, output_format: :xls,
-                                 options: { page_size: :A4 }).valid?).to be_truthy
+      expect(described_class.new(name: 'name', rus_name: 'rus_name', output_format: :xls,
+                                 options: { page_size: :A4 },
+                                 template: { content: BSON::Binary.new('some data') }).valid?).to be_truthy
     }
 
     it 'should create record with template_options' do
-      instance = described_class.create(name: 'name', rus_name: 'rus_name', state: :new, output_format: :xls,
-                                        options: { page_size: :A4 })
+      instance = described_class.create(name: 'name', rus_name: 'rus_name', output_format: :xls,
+                                        options: { page_size: :A4 },
+                                        template: { content: BSON::Binary.new('some data') })
 
       expect(instance.persisted?).to be_truthy
 
@@ -37,9 +44,10 @@ RSpec.describe TemplateInfo, type: :model do
     end
 
     it 'should create record with template_options and margins' do
-      instance = described_class.create(name: 'name', rus_name: 'rus_name', state: :new, output_format: :xls,
+      instance = described_class.create(name: 'name', rus_name: 'rus_name', output_format: :xls,
                                         options: { page_size: :A4,
-                                                   margins: { left: 0, right: 1 }})
+                                                   margins: { left: 0, right: 1 } },
+                                        template: { content: BSON::Binary.new('some data') })
 
       expect(instance.persisted?).to be_truthy
 

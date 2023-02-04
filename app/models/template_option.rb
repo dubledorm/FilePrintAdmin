@@ -43,4 +43,10 @@ class TemplateOption
   validates :orientation, inclusion: { in: ORIENTATION_VALUES }, allow_blank: true
   validates :page_height, :page_width, numericality: { only_integer: true, greater_than_or_equal_to: 0 },
                                        allow_blank: true
+
+  after_initialize do
+    if !persisted? && !margins
+      build_margins
+    end
+  end
 end

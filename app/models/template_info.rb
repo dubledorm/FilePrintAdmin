@@ -5,7 +5,6 @@
 class TemplateInfo
   include Mongoid::Document
 
-  STATE_VALUES = %i[new stable].freeze
   OUTPUT_FORMAT_VALUES = %i[pdf xls].freeze
 
   field :name, type: String
@@ -15,18 +14,24 @@ class TemplateInfo
   field :state, type: Symbol
 
   embeds_one :options, class_name: 'TemplateOption'
-  embeds_many :tags, class_name: 'Tag'
+  has_many :tags, class_name: 'Tag', dependent: :destroy
+  belongs_to :template, dependent: :destroy, validate: true
 
-  belongs_to :template, optional: true, dependent: :destroy
+  accepts_nested_attributes_for :tags, allow_destroy: true
+  accepts_nested_attributes_for :template
+  accepts_nested_attributes_for :options
 
-  validates :state, :name, :rus_name, :output_format, presence: :true
-  validates :state, inclusion: { in: STATE_VALUES }
-
+  validates :name, :rus_name, :output_format, presence: true
   validates :output_format, inclusion: { in: OUTPUT_FORMAT_VALUES }
-
   validates :name, uniqueness: true
 
+  index({ name: 1 }, { unique: true, name: 'name_index' })
+  index({ output_format: 1 }, { unique: false, name: 'output_format_index' })
 
-  index({ name: 1 }, { unique: true, name: "name_index" })
-  index({ state: 1 }, { name: "state_index" })
+  after_initialize do
+    unless persisted?
+      build_template unless template
+      build_options unless options
+    end
+  end
 end
