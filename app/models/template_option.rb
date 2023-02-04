@@ -45,8 +45,6 @@ class TemplateOption
                                        allow_blank: true
 
   after_initialize do
-    if !persisted? && !margins
-      build_margins
-    end
+    build_margins if !persisted? && !margins
   end
 end
