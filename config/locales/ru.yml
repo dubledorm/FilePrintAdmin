@@ -3,6 +3,7 @@ ru:
     models:
       template_info:
         one: Параметры шаблона
+        two: Параметры шаблона
         other: Параметры шаблонов
       template:
         one: Шаблон
@@ -47,6 +48,7 @@ ru:
       template:
         updated_at: Время обновления
         original_file_name: Имя файла
+        content: Содержимое
     errors:
       aliases:
         _field_errors_alias: &fielderrors

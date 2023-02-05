@@ -128,7 +128,7 @@ ActiveAdmin.register TemplateInfo do
   end
 
   action_item :download, only: :show do
-    link_to "DownloadTemplate", download_template_admin_template_info_path(id: resource.id), method: :get
+    link_to I18n.t('download_template'), download_template_admin_template_info_path(id: resource.id), method: :get
   end
 
   member_action :refresh_tags, method: :post do
@@ -138,6 +138,6 @@ ActiveAdmin.register TemplateInfo do
 
 
   action_item :refresh_tags, only: :show do
-    link_to "RefreshTags", refresh_tags_admin_template_info_path(id: resource.id), method: :post
+    link_to I18n.t('refresh_tags'), refresh_tags_admin_template_info_path(id: resource.id), method: :post
   end
 end

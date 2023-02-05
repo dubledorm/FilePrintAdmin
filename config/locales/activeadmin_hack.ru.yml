@@ -1,0 +1,12 @@
+# В /usr/share/rvm/gems/ruby-2.6.6@file_print_admin/gems/activeadmin-2.12.0/lib/active_admin/resource/naming.rb
+# есть функция resource_label. В ней вызывается resource_name.translate, в котором в свою очередь захардкожено,
+# что искать имя модели в пространстве activerecord. Т.к. мы используем mongoid, то приходится сдублировать
+# трансляцию имени модели ещё и в это пространство
+
+ru:
+  activerecord:
+    models:
+      template_info:
+        one: Параметры шаблона
+        two: Параметры шаблона
+        other: Параметры шаблонов
