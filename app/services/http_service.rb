@@ -31,11 +31,33 @@ class HttpService
     raise Error, e.message
   end
 
+  def report!(template_name)
+    template_info = TemplateInfo.by_name(template_name).first
+    raise NotFoundError, "Could not find template with name #{template_name}" unless template_info
+
+    response = faraday_post(template_info)
+    JSON.parse(response.body)['pdf_base64']
+  rescue StandardError => e
+    raise Error, e.message
+  end
+
   protected
 
   def make_url(*args)
     parts = args.map { |part| part.end_with?('/') ? part[0..-2] : part }
     parts.join('/')
+  end
+
+  def faraday_post(template_info)
+    target_url = make_url(@data_to_document_url, DOCUMENTS_PATH, template_info.name).to_s
+    response = Faraday.post(target_url) do |req|
+      req.headers['Content-Type'] = 'application/json'
+      req.headers['accept'] = 'text/plain'
+      req.body = TagsDecorator.decorate(template_info.tags).as_template_params_json.to_json
+    end
+    raise Error, response.body unless response.status == 200
+
+    response
   end
 end
 

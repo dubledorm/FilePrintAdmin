@@ -13,6 +13,10 @@ class TemplateInfoDecorator < Draper::Decorator
     "template.#{file_ext}"
   end
 
+  def report_file_name
+    "template.#{object.output_format}"
+  end
+
   def display_options?
     object.output_format == :pdf
   end

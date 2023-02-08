@@ -25,6 +25,8 @@ class TemplateInfo
   validates :output_format, inclusion: { in: OUTPUT_FORMAT_VALUES }
   validates :name, uniqueness: true
 
+  scope :by_name, ->(name) { where(name: name) }
+
   index({ name: 1 }, { unique: true, name: 'name_index' })
   index({ output_format: 1 }, { unique: false, name: 'output_format_index' })
 

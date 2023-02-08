@@ -36,7 +36,7 @@ group :test do
   # gem "autotest"
   # gem "autotest-rails-pure"
   # gem "autotest-notification"
-  # gem 'webmock'
+  gem 'webmock'
   # gem 'ruby-prof'
   # # Easy installation and use of web drivers to run system tests with browsers
   # gem 'webdrivers'

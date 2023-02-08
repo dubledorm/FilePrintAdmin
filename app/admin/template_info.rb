@@ -11,7 +11,7 @@ ActiveAdmin.register TemplateInfo do
   filter :name
   filter :rus_name
   filter :output_format, as: :check_boxes,
-         collection: proc { TemplateInfo::OUTPUT_FORMAT_VALUES.map { |item| [item, item.to_s] } }
+                         collection: proc { TemplateInfo::OUTPUT_FORMAT_VALUES.map { |item| [item, item.to_s] } }
 
   index do
     selectable_column
@@ -138,6 +138,37 @@ ActiveAdmin.register TemplateInfo do
 
 
   action_item :refresh_tags, only: :show do
-    link_to I18n.t('refresh_tags'), refresh_tags_admin_template_info_path(id: resource.id), method: :post
+    link_to I18n.t('refresh_tags'),
+            refresh_tags_admin_template_info_path(id: resource.id), method: :post,
+            data: { confirm: I18n.t('refresh_tag_confirm')}
+  end
+
+  member_action :make_report, method: :post do
+    send_data Base64.decode64(HttpService.new.report!(resource.name)), filename: resource.decorate.report_file_name
+  end
+
+
+  action_item :make_report, only: :show do
+    link_to I18n.t('try_make_report'), make_report_admin_template_info_path(id: resource.id), method: :post
+  end
+
+  controller do
+    def update
+      super
+      refresh_tags_if_persisted
+    end
+
+    def create
+      super
+      refresh_tags_if_persisted
+    end
+
+    private
+
+    def refresh_tags_if_persisted
+      if resource.persisted? && params['template_info']['template_attributes']['content'].is_a?(ActionDispatch::Http::UploadedFile)
+        RefreshTagsService.refresh(resource)
+      end
+    end
   end
 end
