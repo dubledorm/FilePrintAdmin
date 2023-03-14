@@ -7,7 +7,7 @@ ActiveAdmin.register TemplateInfo do
                                      :header_html, :footer_html,
                                      margins: %i[id top bottom left right]],
                 tags_attributes: %i[id name arguments description example _destroy]
-  menu label: TemplateInfo.model_name.human
+  menu label: TemplateInfo.model_name.human(count: 3)
   filter :name
   filter :rus_name
   filter :output_format, as: :check_boxes,

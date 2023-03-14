@@ -2,12 +2,12 @@ ru:
   mongoid:
     models:
       template_info:
-        one: Параметры шаблона
-        two: Параметры шаблона
-        other: Параметры шаблонов
-      template:
         one: Шаблон
+        two: Шаблоны
         other: Шаблоны
+      template:
+        one: Файл шаблона
+        other: Файлы шаблонов
       template_option:
         one: Html опции
         other: Html опции

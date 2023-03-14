@@ -8,7 +8,9 @@ class HttpService
   include ActiveModel::Validations
 
   TAGS_ENTRY_POINT = 'tags'
+  HEALTH_CHECK_POINT = 'barcode_to_image'
   DOCUMENTS_PATH = 'api/documents'
+  API_PATH = 'api'
 
   class NotFoundError < StandardError; end
   class Error < StandardError; end
@@ -39,6 +41,14 @@ class HttpService
     JSON.parse(response.body)['pdf_base64']
   rescue StandardError => e
     raise Error, e.message
+  end
+
+  def health_check!
+    target_url = make_url(@data_to_document_url, API_PATH, HEALTH_CHECK_POINT, '1234567890').to_s
+    response = Faraday.get(target_url)
+    raise Error, response.body unless response.status == 200
+
+    true
   end
 
   protected

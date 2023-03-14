@@ -7,6 +7,6 @@ ru:
   activerecord:
     models:
       template_info:
-        one: Параметры шаблона
-        two: Параметры шаблона
-        other: Параметры шаблонов
+        one: Шаблон
+        two: Шаблоны
+        other: Шаблоны
