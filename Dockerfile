@@ -52,7 +52,7 @@ RUN bundle install --without development test
 
 RUN yarn install --check-files
 
-RUN RAILS_ENV=production bundle exec ./bin/rake assets:precompile
+RUN  bundle exec rake RAILS_ENV=production PRECOMPILE=true assets:precompile
 
 # Установка часового пояса
 ENV TZ=Europe/Moscow

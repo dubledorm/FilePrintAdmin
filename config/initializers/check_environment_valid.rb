@@ -3,6 +3,7 @@
 # Проверяем, что все переменные окружения переданы и верно настроено подключение к ресурсам.
 Rails.application.config.after_initialize do
   next unless Rails.env.production?
+  next if ENV['PRECOMPILE'].present?
 
   # Проверяем соединение с БД
   begin
