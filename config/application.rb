@@ -34,8 +34,8 @@ module FilePrintAdmin
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-    config.mongoid.logger = Logger.new($stdout, :error)
-    config.logger = Logger.new($stdout)
+    #  config.mongoid.logger = Logger.new($stdout, :error)
+    #    config.logger = Logger.new($stdout)
     config.authentication_method = false
     config.current_user_method   = false
     config.x.data_to_document_url = ENV['DATA_TO_DOCUMENT_URL']
